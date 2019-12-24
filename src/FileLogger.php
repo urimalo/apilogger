@@ -38,7 +38,7 @@ class FileLogger extends AbstractLogger implements ApiLoggerInterface
                 if (!is_dir($file)) {
                     $lines = file($this->path.DIRECTORY_SEPARATOR.$file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
                     foreach ($lines as $line) {
-                        $contentarr = explode(";", $line);
+                        $contentarr = explode(" - ", $line);
                         array_push($contentCollection, $this->mapArrayToModel($contentarr));
                     }
                 }
