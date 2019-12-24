@@ -62,17 +62,19 @@ abstract class AbstractLogger{
 
         $models = implode(', ',$implode_models);
         $this->logs['created_at'] = Carbon::now();
-        $this->logs['user_agent'] = $request->header('User-Agent');
-        $this->logs['trace_id'] = $request->header('X-Zzt-Trace-Id');
-        $this->logs['referer'] = $request->header('Referer');
-        $this->logs['method'] = $request->method();
-        $this->logs['url'] = $request->path();
-        $this->logs['payload'] = json_encode($request->all());
-        $this->logs['response'] = $response->status();
-        $this->logs['duration'] = number_format($endTime - LARAVEL_START, 3);
-        $this->logs['controller'] = $controller;
-        $this->logs['action'] = $action;
-        $this->logs['ip'] = $request->ip();
+
+        $data['userAgent'] = $request->header('User-Agent');
+        $data['traceId'] = $request->header('X-Zzt-Trace-Id');
+        $data['referer'] = $request->header('Referer');
+        $data['method'] = $request->method();
+        $data['url'] = $request->path();
+        $data['payload'] = $request->all();
+        $data['response'] = $response->status();
+        $data['duration'] = number_format($endTime - LARAVEL_START, 3);
+        $data['controller'] = $controller;
+        $data['action'] = $action;
+        $data['ip'] = $request->ip();
+        $this->logs['data'] = json_encode($data);
 
         return $this->logs;
     }
