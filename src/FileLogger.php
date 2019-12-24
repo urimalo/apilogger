@@ -62,7 +62,7 @@ class FileLogger extends AbstractLogger implements ApiLoggerInterface
 
         $filename = $this->getLogFilename();
 
-        $contents = implode(";", $data);
+        $contents = implode(" - ", $data);
 
         File::makeDirectory($this->path, 0777, true, true);
 
