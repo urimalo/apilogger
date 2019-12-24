@@ -33,10 +33,7 @@ class ApiLogServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadConfig();
-        $this->loadRoutes();
-        $this->loadViews();
         $this->loadCommand();
-        $this->loadMigrations();
     }
 
     public function bindServices(){
@@ -68,17 +65,9 @@ class ApiLogServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
     }
 
-    public function loadViews(){
-        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'apilog');
-    }
-
     public function loadCommand(){
         $this->commands([
             ClearApiLogger::class
         ]);
-    }
-
-    public function loadMigrations(){
-        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
     }
 }
