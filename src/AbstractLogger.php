@@ -70,6 +70,9 @@ abstract class AbstractLogger{
 
         $models = implode(', ',$implode_models);
         $this->logs['created_at'] = Carbon::now();
+        $this->logs['user_agent'] = $request->header('User-Agent');
+        $this->logs['trace_id'] = $request->header('X-Zzt-Trace-Id');
+        $this->logs['referer'] = $request->header('Referer');
         $this->logs['method'] = $request->method();
         $this->logs['url'] = $request->path();
         $this->logs['payload'] = json_encode($request->all());
