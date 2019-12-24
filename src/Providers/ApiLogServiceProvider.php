@@ -52,7 +52,7 @@ class ApiLogServiceProvider extends ServiceProvider
         }
         $this->app->singleton(ApiLoggerInterface::class,$instance);
 
-        $this->app->singleton('apilogger', function ($app) use ($instance){
+        $this->app->singleton('apilog', function ($app) use ($instance){
             return new ApiLogger($app->make($instance));
         });
     }
