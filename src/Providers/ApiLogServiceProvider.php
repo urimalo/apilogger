@@ -56,13 +56,11 @@ class ApiLogServiceProvider extends ServiceProvider
             return new ApiLogger($app->make($instance));
         });
     }
+    
     public function loadConfig(){
         $this->publishes([
             __DIR__.'/../../config/apilog.php' => config_path('apilog.php')
         ], 'config');
-    }
-    public function loadRoutes(){
-        $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
     }
 
     public function loadCommand(){
