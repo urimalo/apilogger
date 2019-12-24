@@ -24,14 +24,6 @@ abstract class AbstractLogger{
      * @return void
      */
     public function boot(){
-        Event::listen('eloquent.*', function ($event, $models) {
-            if (Str::contains($event, 'eloquent.retrieved')) {
-                foreach (array_filter($models) as $model) {
-                    $class = get_class($model);
-                    $this->models[$class] = ($this->models[$class] ?? 0) + 1;
-                }
-            }
-        });
     }
     /**
      * logs into associative array
@@ -80,29 +72,8 @@ abstract class AbstractLogger{
         $this->logs['duration'] = number_format($endTime - LARAVEL_START, 3);
         $this->logs['controller'] = $controller;
         $this->logs['action'] = $action;
-        $this->logs['models'] = $models;
         $this->logs['ip'] = $request->ip();
 
         return $this->logs;
-    }
-    /**
-     * Helper method for mapping array into models
-     *
-     * @param array $data
-     * @return ApiLog
-     */
-    public function mapArrayToModel(array $data){
-        $model = new ApiLog();
-        $model->created_at = Carbon::make($data[0]);
-        $model->method = $data[1];
-        $model->url = $data[2];
-        $model->payload = $data[3];
-        $model->response = $data[4];
-        $model->duration = $data[5];
-        $model->controller = $data[6];
-        $model->action = $data[7];
-        $model->models = $data[8];
-        $model->ip = $data[9];
-        return $model;
     }
 }
