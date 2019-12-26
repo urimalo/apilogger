@@ -52,7 +52,7 @@ abstract class AbstractLogger{
 
         $endTime = microtime(true);
         
-        $data['created_at'] = Carbon::now();
+        $data['created_at'] = Carbon::now()->toDateTimeString();
         $data['userAgent'] = $request->header('User-Agent');
         $data['traceId'] = $request->header('X-Zzt-Trace-Id');
         $data['referer'] = $request->header('Referer');
