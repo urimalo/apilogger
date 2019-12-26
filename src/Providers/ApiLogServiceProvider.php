@@ -13,59 +13,21 @@ use Illuminate\Support\ServiceProvider;
 class ApiLogServiceProvider extends ServiceProvider
 {
     /**
-     * Register services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/apilog.php', 'apilog'
-        );
-        $this->bindServices();
-    }
-
-    /**
      * Bootstrap services.
      *
      * @return void
      */
     public function boot()
     {
-        $this->loadConfig();
-        $this->loadCommand();
+        $this->bindServices();
     }
 
     public function bindServices(){
-        $driver = config('apilog.driver');
-        $instance = "";
-        switch ($driver) {
-            case 'file':
-                $instance = FileLogger::class;
-                break;
-            case 'db':
-                $instance = DBLogger::class;
-                break;
-            default:
-                throw new Exception("Unsupported Driver");
-                break;
-        }
+        $instance = FileLogger::class;
         $this->app->singleton(ApiLoggerInterface::class,$instance);
 
         $this->app->singleton('apilog', function ($app) use ($instance){
             return new ApiLogger($app->make($instance));
         });
-    }
-    
-    public function loadConfig(){
-        $this->publishes([
-            __DIR__.'/../../config/apilog.php' => config_path('apilog.php')
-        ], 'config');
-    }
-
-    public function loadCommand(){
-        $this->commands([
-            ClearApiLogger::class
-        ]);
     }
 }
