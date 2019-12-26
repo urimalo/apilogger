@@ -12,8 +12,6 @@ abstract class AbstractLogger{
 
     protected $logs = [];
 
-    protected $models = [];
-
     public function __construct()
     {
         $this->boot();
@@ -53,22 +51,14 @@ abstract class AbstractLogger{
         }
 
         $endTime = microtime(true);
-
-        $implode_models = $this->models;
-
-        array_walk($implode_models, function(&$value, $key) {
-            $value = "{$key} ({$value})";
-        });
-
-        $models = implode(', ',$implode_models);
-        $this->logs['created_at'] = Carbon::now();
-
+        
+        $data['created_at'] = Carbon::now();
         $data['userAgent'] = $request->header('User-Agent');
         $data['traceId'] = $request->header('X-Zzt-Trace-Id');
         $data['referer'] = $request->header('Referer');
         $data['method'] = $request->method();
         $data['url'] = $request->path();
-        $data['payload'] = $request->all();
+        $data['payload'] = json_encode($request->all());
         $data['response'] = $response->status();
         $data['duration'] = number_format($endTime - LARAVEL_START, 3);
         $data['controller'] = $controller;
